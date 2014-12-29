@@ -41,7 +41,7 @@ class Gruvin9xInterface : public EEPROMInterface
     
     virtual bool loadxml(RadioData &radioData, QDomDocument &doc);
 
-    virtual int save(uint8_t *eeprom, RadioData &radioData, uint32_t variant=0, uint8_t version=0);
+    virtual int save(uint8_t *eeprom, const RadioData &radioData, uint32_t variant=0, uint8_t version=0);
 
     virtual int getSize(ModelData &);
     

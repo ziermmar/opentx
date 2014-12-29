@@ -226,7 +226,7 @@ bool Ersky9xInterface::loadBackup(RadioData &radioData, uint8_t *eeprom, int esi
   return false;
 }
 
-int Ersky9xInterface::save(uint8_t *eeprom, RadioData &radioData, uint32_t variant, uint8_t version)
+int Ersky9xInterface::save(uint8_t *eeprom, const RadioData &radioData, uint32_t variant, uint8_t version)
 {
   std::cout << "NO!\n";
   // TODO an error

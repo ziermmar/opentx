@@ -286,9 +286,9 @@ bool OpenTxEepromInterface::loadGeneral(GeneralSettings &settings, unsigned int 
 }
 
 template <class T>
-bool OpenTxEepromInterface::saveGeneral(GeneralSettings &settings, BoardEnum board, uint32_t version, uint32_t variant)
+bool OpenTxEepromInterface::saveGeneral(const GeneralSettings &settings, BoardEnum board, uint32_t version, uint32_t variant)
 {
-  T open9xSettings(settings, board, version, variant);
+  T open9xSettings((GeneralSettings &)settings, board, version, variant);
   // open9xSettings.Dump();
   QByteArray eeprom;
   open9xSettings.Export(eeprom);
@@ -297,9 +297,9 @@ bool OpenTxEepromInterface::saveGeneral(GeneralSettings &settings, BoardEnum boa
 }
 
 template <class T>
-bool OpenTxEepromInterface::saveModel(unsigned int index, ModelData &model, unsigned int version, unsigned int variant)
+bool OpenTxEepromInterface::saveModel(unsigned int index, const ModelData &model, unsigned int version, unsigned int variant)
 {
-  T open9xModel(model, board, version, variant);
+  T open9xModel((ModelData &)model, board, version, variant);
   // open9xModel.Dump();
   QByteArray eeprom;
   open9xModel.Export(eeprom);
@@ -374,7 +374,7 @@ bool OpenTxEepromInterface::load(RadioData &radioData, const uint8_t *eeprom, in
   return true;
 }
 
-int OpenTxEepromInterface::save(uint8_t *eeprom, RadioData &radioData, uint32_t variant, uint8_t version)
+int OpenTxEepromInterface::save(uint8_t *eeprom, const RadioData &radioData, uint32_t variant, uint8_t version)
 {
   EEPROMWarnings.clear();
 

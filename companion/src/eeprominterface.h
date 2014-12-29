@@ -1038,7 +1038,7 @@ class ModelData {
     SensorData sensorData[C9X_MAX_SENSORS];
 
     void clear();
-    bool isempty();
+    bool isempty() const;
     void setDefaultInputs(const GeneralSettings & settings);
     void setDefaultMixes(const GeneralSettings & settings);
     void setDefaultValues(unsigned int id, const GeneralSettings & settings);
@@ -1359,7 +1359,7 @@ class EEPROMInterface
     
     virtual bool loadxml(RadioData &radioData, QDomDocument &doc) = 0;
 
-    virtual int save(uint8_t *eeprom, RadioData &radioData, uint32_t variant=0, uint8_t version=0) = 0;
+    virtual int save(uint8_t *eeprom, const RadioData &radioData, uint32_t variant=0, uint8_t version=0) = 0;
 
     virtual int getSize(ModelData &) = 0;
     

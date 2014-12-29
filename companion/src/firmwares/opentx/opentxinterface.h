@@ -40,7 +40,7 @@ class OpenTxEepromInterface : public EEPROMInterface
     
     virtual bool loadxml(RadioData &radioData, QDomDocument &doc);
 
-    virtual int save(uint8_t *eeprom, RadioData &radioData, uint32_t variant=0, uint8_t version=0);
+    virtual int save(uint8_t *eeprom, const RadioData &radioData, uint32_t variant=0, uint8_t version=0);
 
     virtual int getSize(ModelData &);
 
@@ -65,13 +65,13 @@ class OpenTxEepromInterface : public EEPROMInterface
     bool loadModel(uint8_t version, ModelData &model, uint8_t *data, int index, unsigned int variant, unsigned int stickMode=0);
 
     template <class T>
-    bool saveModel(unsigned int index, ModelData &model, unsigned int version, unsigned int variant);
+    bool saveModel(unsigned int index, const ModelData &model, unsigned int version, unsigned int variant);
 
     template <class T>
     bool loadGeneral(GeneralSettings &settings, unsigned int version);
 
     template <class T>
-    bool saveGeneral(GeneralSettings &settings, BoardEnum board, uint32_t version, uint32_t variant);
+    bool saveGeneral(const GeneralSettings &settings, BoardEnum board, uint32_t version, uint32_t variant);
 
     RleFile *efile;
 

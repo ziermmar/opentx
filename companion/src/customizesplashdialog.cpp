@@ -5,6 +5,7 @@
 #include "helpers.h"
 #include "splashlibrary.h"
 #include "firmwareinterface.h"
+#include "converteeprom.h"
 
 //*** Side Class ***
 

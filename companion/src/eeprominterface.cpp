@@ -1307,7 +1307,7 @@ void ModelData::clear()
     sensorData[i].clear();
 }
 
-bool ModelData::isempty()
+bool ModelData::isempty() const
 {
   return !used;
 }

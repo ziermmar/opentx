@@ -53,14 +53,24 @@ struct CurrentSelection
 
 class ModelsListWidget : public QListWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    ModelsListWidget(QWidget *parent = 0);
-
+    ModelsListWidget(QWidget *parent, RadioData *radioData);
+    int availableSpace();
     bool hasSelection();
     void keyPressEvent(QKeyEvent *event);
     bool hasPasteData();
+
+signals:
+    void modified();
+    void doubleclick(int row);
+    void modeledit(int row);
+    void modelwizard(int row);
+    void modelprint(int row);
+    void modelload(int row);
+    void modelsimulate(int row);
+    void viablemodelselected(bool viable);
 
 protected:
     void dropEvent(QDropEvent *event);
@@ -81,10 +91,10 @@ public slots:
     void copy();
     void paste();
     void print();
-    void EditModel();
-    void OpenEditWindow();
+    void onModelEdit();
+    void onDoubleClick();
     void LoadBackup();
-    void OpenWizard();
+    void onModelWizard();
     void simulate();
     void duplicate();
     void setdefault();
@@ -104,7 +114,7 @@ private:
 
     CurrentSelection currentSelection;
     QColor active_highlight_color;
-    
+    int _availableSpace;
 };
 
 #endif

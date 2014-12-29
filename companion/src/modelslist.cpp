@@ -40,7 +40,10 @@
 ****************************************************************************/
 
 #include "modelslist.h"
-#include "mdichild.h"
+#include <QApplication>
+#include <QClipboard>
+#include <QKeyEvent>
+#include <QMessageBox>
 #include "helpers.h"
 
 class DragDropHeader {
@@ -55,14 +58,14 @@ class DragDropHeader {
     uint8_t models[C9X_MAX_MODELS];
 };
 
-ModelsListWidget::ModelsListWidget(QWidget *parent):
-  QListWidget(parent)
+ModelsListWidget::ModelsListWidget(QWidget *parent, RadioData *radioData):
+  QListWidget(parent),
+  radioData(radioData),
+  _availableSpace(0)
 {
   setFont(QFont("Courier New",12));
-  radioData = &((MdiChild *)parent)->radioData;
-  refreshList();
 
-  connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OpenEditWindow()));
+  connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onDoubleClick()));
   connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(ShowContextMenu(const QPoint&)));
   connect(this, SIGNAL(currentRowChanged(int)), this, SLOT(viableModelSelected(int)));
 
@@ -76,61 +79,66 @@ ModelsListWidget::ModelsListWidget(QWidget *parent):
   active_highlight_color = palette().color(QPalette::Active, QPalette::Highlight);
 }
 
+int ModelsListWidget::availableSpace()
+{
+  return _availableSpace;
+}
+
 void ModelsListWidget::ShowContextMenu(const QPoint& pos)
 {
-    QPoint globalPos = this->mapToGlobal(pos);
+  QPoint globalPos = this->mapToGlobal(pos);
 
-    const QClipboard *clipboard = QApplication::clipboard();
-    const QMimeData *mimeData = clipboard->mimeData();
-    bool hasData = mimeData->hasFormat("application/x-companion");
+  const QClipboard *clipboard = QApplication::clipboard();
+  const QMimeData *mimeData = clipboard->mimeData();
+  bool hasData = mimeData->hasFormat("application/x-companion");
 
-    QMenu contextMenu;
-    contextMenu.addAction(CompanionIcon("edit.png"), tr("&Edit"),this,SLOT(EditModel()));
-    contextMenu.addAction(CompanionIcon("open.png"), tr("&Restore from backup"),this,SLOT(LoadBackup()));
-    contextMenu.addAction(CompanionIcon("wizard.png"), tr("&Model Wizard"),this,SLOT(OpenWizard()));
-    contextMenu.addSeparator();
-    contextMenu.addAction(CompanionIcon("clear.png"), tr("&Delete"),this,SLOT(confirmDelete()),tr("Delete"));
-    contextMenu.addAction(CompanionIcon("copy.png"), tr("&Copy"),this,SLOT(copy()),tr("Ctrl+C"));
-    contextMenu.addAction(CompanionIcon("cut.png"), tr("&Cut"),this,SLOT(cut()),tr("Ctrl+X"));
-    contextMenu.addAction(CompanionIcon("paste.png"), tr("&Paste"),this,SLOT(paste()),tr("Ctrl+V"))->setEnabled(hasData);
-    contextMenu.addAction(CompanionIcon("duplicate.png"), tr("D&uplicate"),this,SLOT(duplicate()),tr("Ctrl+U"));
-    contextMenu.addSeparator();
-    contextMenu.addAction(CompanionIcon("currentmodel.png"), tr("&Use as default"),this,SLOT(setdefault()));
-    contextMenu.addSeparator();
-    contextMenu.addAction(CompanionIcon("print.png"), tr("P&rint model"),this, SLOT(print()),QKeySequence(tr("Ctrl+P")));
-    contextMenu.addSeparator();
-    contextMenu.addAction(CompanionIcon("simulate.png"), tr("&Simulate model"),this, SLOT(simulate()),tr("Alt+S"));
-    contextMenu.exec(globalPos);
+  QMenu contextMenu;
+  contextMenu.addAction(CompanionIcon("edit.png"), tr("&Edit"),this, SLOT(onModelEdit()));
+  contextMenu.addAction(CompanionIcon("open.png"), tr("&Restore from backup"),this,SLOT(LoadBackup()));
+  contextMenu.addAction(CompanionIcon("wizard.png"), tr("&Model Wizard"), this, SLOT(onModelWizard()));
+  contextMenu.addSeparator();
+  contextMenu.addAction(CompanionIcon("clear.png"), tr("&Delete"),this,SLOT(confirmDelete()),tr("Delete"));
+  contextMenu.addAction(CompanionIcon("copy.png"), tr("&Copy"),this,SLOT(copy()),tr("Ctrl+C"));
+  contextMenu.addAction(CompanionIcon("cut.png"), tr("&Cut"),this,SLOT(cut()),tr("Ctrl+X"));
+  contextMenu.addAction(CompanionIcon("paste.png"), tr("&Paste"),this,SLOT(paste()),tr("Ctrl+V"))->setEnabled(hasData);
+  contextMenu.addAction(CompanionIcon("duplicate.png"), tr("D&uplicate"),this,SLOT(duplicate()),tr("Ctrl+U"));
+  contextMenu.addSeparator();
+  contextMenu.addAction(CompanionIcon("currentmodel.png"), tr("&Use as default"),this,SLOT(setdefault()));
+  contextMenu.addSeparator();
+  contextMenu.addAction(CompanionIcon("print.png"), tr("P&rint model"),this, SLOT(print()),QKeySequence(tr("Ctrl+P")));
+  contextMenu.addSeparator();
+  contextMenu.addAction(CompanionIcon("simulate.png"), tr("&Simulate model"),this, SLOT(simulate()),tr("Alt+S"));
+  contextMenu.exec(globalPos);
 }
 
-void ModelsListWidget::EditModel()
+void ModelsListWidget::onModelEdit()
 {
-  ((MdiChild *)parent())->modelEdit();
+  emit modeledit(currentRow());
 }
 
-void ModelsListWidget::OpenEditWindow()
+void ModelsListWidget::onDoubleClick()
 {
-  ((MdiChild *)parent())->openEditWindow();
+  emit doubleclick(currentRow());
 }
 
-void ModelsListWidget::OpenWizard()
+void ModelsListWidget::onModelWizard()
 {
-  ((MdiChild *)parent())->wizardEdit();
+  emit modelwizard(currentRow());
 }
 
 void ModelsListWidget::LoadBackup()
 {
-  ((MdiChild *)parent())->loadBackup();
+  emit modelload(currentRow());
 }
 
 void ModelsListWidget::simulate()
 {
-  ((MdiChild *)parent())->simulate();
+  emit modelsimulate(currentRow());
 }
 
 void ModelsListWidget::print()
 {
-  ((MdiChild *)parent())->print();
+  emit modelprint(currentRow());
 }
 
 void ModelsListWidget::setdefault()
@@ -140,10 +148,9 @@ void ModelsListWidget::setdefault()
   if (!radioData->models[currModel].isempty() && radioData->generalSettings.currModel != currModel) {
     radioData->generalSettings.currModel = currModel;
     refreshList();
-    ((MdiChild *)parent())->setModified();
+    emit modified();
   }
 }
-
 
 void ModelsListWidget::mousePressEvent(QMouseEvent *event)
 {
@@ -334,9 +341,7 @@ void ModelsListWidget::refreshList()
         this->item(radioData->generalSettings.currModel+1)->setFont(f);
     }
 
-    if (eepromInterface && !IS_SKY9X(eepromInterface->getBoard())) {
-      ((MdiChild*)parent())->setEEpromAvail((availableEEpromSize/16)*15);
-    }
+    _availableSpace = (availableEEpromSize/16)*15;
 }
 
 void ModelsListWidget::cut()
@@ -345,7 +350,8 @@ void ModelsListWidget::cut()
     deleteSelected(false);
 }
 
-void ModelsListWidget::confirmDelete() {
+void ModelsListWidget::confirmDelete()
+{
     deleteSelected(true);
 }
 
@@ -374,11 +380,13 @@ void ModelsListWidget::deleteSelected(bool ask=true)
       foreach(QModelIndex index, this->selectionModel()->selectedIndexes()) {
         if (index.row()>0 && radioData->generalSettings.currModel!=(unsigned int)(index.row()-1)) {
           radioData->models[index.row()-1].clear();
-          ((MdiChild *)parent())->setModified();
-        } else if (index.row()>0) {
+          emit modified();
+        }
+        else if (index.row()>0) {
           if (ask) {
             ret = QMessageBox::warning(this, "Companion", tr("Cannot delete default model."), QMessageBox::Ok);
-          } else {
+          }
+          else {
             ret = QMessageBox::warning(this, "Companion", tr("Cannot cut default model."), QMessageBox::Ok);
           }
         }
@@ -388,16 +396,16 @@ void ModelsListWidget::deleteSelected(bool ask=true)
 
 void ModelsListWidget::doCut(QByteArray *gmData)
 {
-    bool modified=false;
+    bool mod = false;
     DragDropHeader *header = (DragDropHeader *)gmData->data();
     for (int i=0; i<header->models_count; i++) {
       if (radioData->generalSettings.currModel != (unsigned int)header->models[i]-1) {
         radioData->models[header->models[i]-1].clear();
-        modified=true;
+        mod = true;
       }
     }
-    if (modified) {
-      ((MdiChild *)parent())->setModified();
+    if (mod) {
+      emit modified();
     }
 }
 
@@ -441,7 +449,7 @@ void ModelsListWidget::doPaste(QByteArray *gmData, int index)
   char *gData = gmData->data()+sizeof(DragDropHeader);//new char[gmData.size() + 1];
   int i = sizeof(DragDropHeader);
   int id = index;
-  int ret,modified=0;
+  int ret, mod=0;
   if(!id) id++;
 
   while((i<gmData->size()) && (id<=GetEepromInterface()->getMaxModels())) {
@@ -453,7 +461,7 @@ void ModelsListWidget::doPaste(QByteArray *gmData, int index)
               QMessageBox::Yes | QMessageBox::No);
       if (ret == QMessageBox::Yes) {
         radioData->generalSettings = *((GeneralSettings *)gData);
-        modified=1;
+        mod = 1;
       }
       gData += sizeof(GeneralSettings);
       i += sizeof(GeneralSettings);
@@ -467,7 +475,7 @@ void ModelsListWidget::doPaste(QByteArray *gmData, int index)
           gData += sizeof(ModelData);
           i += sizeof(ModelData);
           id++;
-          modified = 1;
+          mod = 1;
         }
         else {
           gData += sizeof(ModelData);
@@ -480,12 +488,13 @@ void ModelsListWidget::doPaste(QByteArray *gmData, int index)
         gData += sizeof(ModelData);
         i += sizeof(ModelData);
         id++;
-        modified=1;
+        mod = 1;
       }
     }
   }
-  if (modified==1) {
-    ((MdiChild *)parent())->setModified();
+  if (mod) {
+    qDebug() << "emit modified";
+    emit modified();
   }
 }
 
@@ -517,7 +526,7 @@ void ModelsListWidget::duplicate()
         while(i<GetEepromInterface()->getMaxModels()) {
           if (radioData->models[i].isempty()) {
             radioData->models[i] = *model;
-            ((MdiChild *)parent())->setModified();
+            emit modified();   
             break;
           }
           i++;
@@ -535,48 +544,26 @@ bool ModelsListWidget::hasSelection()
 
 void ModelsListWidget::keyPressEvent(QKeyEvent *event)
 {
-    if(event->matches(QKeySequence::Delete))
-    {
-        deleteSelected();
-        return;
-    }
-
-    if(event->matches(QKeySequence::Cut))
-    {
-        cut();
-        return;
-    }
-
-    if(event->matches(QKeySequence::Copy))
-    {
-        copy();
-        return;
-    }
-
-    if(event->matches(QKeySequence::Paste))
-    {
-        paste();
-        return;
-    }
-
-    if(event->matches(QKeySequence::Underline))
-    {
-        duplicate();
-        return;
-    }
-
-    QListWidget::keyPressEvent(event);//run the standard event in case we didn't catch an action
+  if (event->matches(QKeySequence::Delete))
+    deleteSelected();
+  else if (event->matches(QKeySequence::Cut))
+    cut();
+  else if (event->matches(QKeySequence::Copy))
+    copy();
+  else if (event->matches(QKeySequence::Paste))
+    paste();
+  else if (event->matches(QKeySequence::Underline))
+    duplicate();
+  else
+    QListWidget::keyPressEvent(event); //run the standard event in case we didn't catch an action
 }
 
 void ModelsListWidget::viableModelSelected(int idx)
 {
   if (!isVisible())
-    ((MdiChild*)parent())->viableModelSelected(false);
+    emit viablemodelselected(false);
   else if (idx<1)
-    ((MdiChild*)parent())->viableModelSelected(false);
+    emit viablemodelselected(false);
   else
-    ((MdiChild*)parent())->viableModelSelected(!radioData->models[currentRow()-1].isempty());
+    emit viablemodelselected(!radioData->models[currentRow()-1].isempty());
 }
-
-
-

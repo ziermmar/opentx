@@ -42,21 +42,13 @@
 #ifndef MDICHILD_H
 #define MDICHILD_H
 
-#include <QtGui>
+#include <QMainWindow>
 #include "eeprominterface.h"
 
-namespace Ui {
-class mdiChild;
-}
-#define ER9X_EEPROM_FILE_TYPE        "ER9X_EEPROM_FILE"
+class ModelsListWidget;
 
-#define EEPE_EEPROM_FILE_HEADER  "EEPE EEPROM FILE"
-#define EEPE_MODEL_FILE_HEADER   "EEPE MODEL FILE"
-
-class MdiChild : public QWidget
+class MdiChild : public QMainWindow
 {
-    friend class ModelsListWidget;
-
     Q_OBJECT
 
   public:
@@ -65,7 +57,6 @@ class MdiChild : public QWidget
 
     void newFile();
     bool loadFile(const QString &fileName, bool resetCurrentFile=true);
-    bool loadBackup();
     bool save();
     bool saveAs(bool isNew=false);
     bool saveFile(const QString &fileName, bool setCurrent=true);
@@ -74,9 +65,7 @@ class MdiChild : public QWidget
     QString currentFile() { return curFile; }
     // void keyPressEvent(QKeyEvent *event);
     bool hasPasteData();
-    void viableModelSelected(bool viable);
     void eepromInterfaceChanged();
-    void setEEpromAvail(int eavail);
 
   signals:
     void copyAvailable(bool val);
@@ -86,22 +75,22 @@ class MdiChild : public QWidget
 
   private slots:
     void documentWasModified();
-    void on_SimulateTxButton_clicked();
-    void qSleep(int ms);
 
   public slots:
     void checkAndInitModel(int row);
     void generalEdit();
-    void modelEdit();
-    void wizardEdit();
-    void openEditWindow();
+    void onModelEdit(int row);
+    void onModelWizard(int row);
+    void onDoubleClick(int row);
+    void onModelLoad(int row);
+    void onModelSimulate(int row);
+    void onModelPrint(int row); // model=-1, QString filename="");
+    void viableModelSelected(bool viable);
     
     void cut();
     void copy();
     void paste();
     void writeEeprom();
-    void simulate();
-    void print(int model=-1, QString filename="");
     void setModified();
     void updateTitle();
 
@@ -112,7 +101,7 @@ class MdiChild : public QWidget
     void saveSelection();
     void restoreSelection();
 
-    Ui::mdiChild *ui;
+    ModelsListWidget *modelsList;
 
     QString curFile;
 
@@ -121,7 +110,6 @@ class MdiChild : public QWidget
 
     bool isUntitled;
     bool fileChanged;
-    int EEPromAvail;
 };
 
 #endif

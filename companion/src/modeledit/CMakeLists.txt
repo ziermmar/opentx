@@ -1,7 +1,6 @@
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 set(modeledit_NAMES
-  modeledit
   setup
   heli
   curves
@@ -11,6 +10,7 @@ set(modeledit_NAMES
 )
 
 set(modeledit_SRCS
+  modeledit.cpp
   flightmodes.cpp
   inputs.cpp
   mixes.cpp
@@ -24,6 +24,7 @@ set(modeledit_SRCS
 )
 
 set(modeledit_HDRS
+  modeledit.h
   flightmodes.h
   inputs.h
   mixes.h

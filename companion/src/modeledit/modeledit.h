@@ -1,14 +1,11 @@
 #ifndef MODELEDIT_H
 #define MODELEDIT_H
 
-#include <QDialog>
 #include "genericpanel.h"
+#include <QDialog>
+#include <QDockWidget>
 
 class RadioData;
-
-namespace Ui {
-  class ModelEdit;
-}
 
 class ModelPanel : public GenericPanel
 {
@@ -19,35 +16,26 @@ class ModelPanel : public GenericPanel
     }
 };
 
-class ModelEdit : public QDialog
+class ModelEdit : public QObject // QDialog
 {
     Q_OBJECT
 
   public:
     ModelEdit(QWidget * parent, RadioData & radioData, int modelId, Firmware * firmware);
-    ~ModelEdit();
   
-  protected:
-    void closeEvent(QCloseEvent *event);
-
   signals:
     void modified();
 
-  private slots:
+  protected slots:
     void onTabModified();
-    void on_pushButton_clicked();
-    void on_tabWidget_currentChanged(int index);
 
   private:
-    Ui::ModelEdit *ui;
     int modelId;
     ModelData & model;
     GeneralSettings & generalSettings;
     Firmware * firmware;
     QVector<GenericPanel *> panels;
-
-    void addTab(GenericPanel *panel, QString text);
-    void launchSimulation();
+    QDockWidget *addTab(GenericPanel *panel, const QString &name, QDockWidget *dock=NULL);
 
 };
 

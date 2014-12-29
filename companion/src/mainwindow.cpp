@@ -67,6 +67,7 @@
 #include "process_sync.h"
 #include "radiointerface.h"
 #include "progressdialog.h"
+#include "converteeprom.h"
 
 #define OPENTX_COMPANION_DOWNLOADS   "http://downloads-20.open-tx.org/companion"
 #define DONATE_STR      "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QUZ48K4SEXDP2"
@@ -108,10 +109,12 @@ MainWindow::MainWindow():
     restoreGeometry(g.mainWinGeo());
 
     // setUnifiedTitleAndToolBarOnMac(true);
-    this->setWindowIcon(QIcon(":/icon.png"));
-    this->setIconSize(QSize(32, 32));
-    QNetworkProxyFactory::setUseSystemConfiguration(true);
+    setWindowIcon(QIcon(":/icon.png"));
+    setIconSize(QSize(32, 32));
     setAcceptDrops(true);
+
+    setDockNestingEnabled(true);
+    QNetworkProxyFactory::setUseSystemConfiguration(true);
     
     // give time to the splash to disappear and main window to open before starting updates
     int updateDelay = 1000;
@@ -122,8 +125,10 @@ MainWindow::MainWindow():
     QTimer::singleShot(updateDelay, this, SLOT(doAutoUpdates()));
     QTimer::singleShot(updateDelay, this, SLOT(displayWarnings()));
 
+#if 0
     QStringList strl = QApplication::arguments();
     QString str;
+
     QString printfilename;
     int printing=false;
     int model=-1;
@@ -155,7 +160,7 @@ MainWindow::MainWindow():
             child->show();
           }
           else {
-            child->show();            
+            child->show();
             child->print(model,printfilename);
             child->close();
           }
@@ -165,6 +170,7 @@ MainWindow::MainWindow():
     if (printing) {
       QTimer::singleShot(0, this, SLOT(autoClose()));
     }
+#endif
 }
 
 void MainWindow::displayWarnings()
@@ -739,20 +745,20 @@ void MainWindow::writeEeprom()
 void MainWindow::simulate()
 {
     if (activeMdiChild())
-      activeMdiChild()->simulate();
+      activeMdiChild()->onModelSimulate(-1);
 }
 
 
 void MainWindow::print()
 {
     if (activeMdiChild())
-      activeMdiChild()->print();
+      activeMdiChild()->onModelPrint(-1);
 }
 
 void MainWindow::loadBackup()
 {
     if (activeMdiChild())
-      activeMdiChild()->loadBackup();
+      activeMdiChild()->onModelLoad(-1);
 }
 
 void MainWindow::readEeprom()
@@ -805,16 +811,6 @@ void MainWindow::writeBackup()
 {
   FlashEEpromDialog *cd = new FlashEEpromDialog(this);
   cd->exec();
-}
-
-int MainWindow::getFileType(const QString &fullFileName)
-{
-    if(QFileInfo(fullFileName).suffix().toUpper()=="HEX")  return FILE_TYPE_HEX;
-    if(QFileInfo(fullFileName).suffix().toUpper()=="BIN")  return FILE_TYPE_BIN;
-    if(QFileInfo(fullFileName).suffix().toUpper()=="EEPM") return FILE_TYPE_EEPM;
-    if(QFileInfo(fullFileName).suffix().toUpper()=="EEPE") return FILE_TYPE_EEPE;
-    if(QFileInfo(fullFileName).suffix().toUpper()=="XML") return FILE_TYPE_XML;
-    return 0;
 }
 
 void MainWindow::writeFlash(QString fileToFlash)
@@ -929,9 +925,9 @@ MdiChild *MainWindow::createMdiChild()
 {
   MdiChild * child = new MdiChild();
   mdiArea->addSubWindow(child);
-  if (!child->parentWidget()->isMaximized() && !child->parentWidget()->isMinimized()) {
+  /*if (!child->parentWidget()->isMaximized() && !child->parentWidget()->isMinimized()) {
     child->parentWidget()->resize(400, 400);
-  }
+  }*/
 
   connect(child, SIGNAL(copyAvailable(bool)),cutAct, SLOT(setEnabled(bool)));
   connect(child, SIGNAL(copyAvailable(bool)),copyAct, SLOT(setEnabled(bool)));

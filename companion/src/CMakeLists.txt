@@ -210,7 +210,6 @@ set(companion_MOC_HDRS
 )
      
 set(companion_UIS
-  mdichild.ui
   comparedialog.ui
   fusesdialog.ui
   logsdialog.ui

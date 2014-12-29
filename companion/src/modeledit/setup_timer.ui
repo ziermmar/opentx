@@ -18,7 +18,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <property name="spacing">
-    <number>-1</number>
+    <number>6</number>
    </property>
    <property name="margin">
     <number>0</number>
@@ -75,19 +75,6 @@
       <string notr="true"> (00:00:00)</string>
      </property>
     </widget>
-   </item>
-   <item>
-    <spacer name="spacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>255</width>
-       <height>17</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2790</width>
+    <width>2050</width>
     <height>67</height>
    </rect>
   </property>
@@ -27,6 +27,12 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>0</height>
+      </size>
      </property>
      <property name="maxLength">
       <number>4</number>
@@ -91,7 +97,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Instance</string>
+      <string>Inst</string>
      </property>
     </widget>
    </item>
@@ -105,6 +111,12 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>0</height>
+      </size>
      </property>
      <property name="decimals">
       <number>0</number>
@@ -430,7 +442,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Precision</string>
+      <string>Prec</string>
      </property>
     </widget>
    </item>
@@ -444,6 +456,12 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>0</height>
+      </size>
      </property>
      <property name="decimals">
       <number>0</number>
@@ -462,7 +480,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Range</string>
+      <string>Rng</string>
      </property>
     </widget>
    </item>
@@ -494,7 +512,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Offset</string>
+      <string>Ofs</string>
      </property>
     </widget>
    </item>
@@ -561,7 +579,7 @@
       <enum>Qt::LeftToRight</enum>
      </property>
      <property name="text">
-      <string>Persistent</string>
+      <string>Pers.</string>
      </property>
     </widget>
    </item>

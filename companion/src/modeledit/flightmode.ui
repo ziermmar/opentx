@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>610</width>
-    <height>499</height>
+    <width>831</width>
+    <height>646</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -82,6 +82,29 @@
       <widget class="QComboBox" name="swtch"/>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="trimsLabel">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Trims</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QGridLayout" name="trimsLayout">
@@ -439,21 +462,56 @@
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line">
+    <widget class="Line" name="reSeparator">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <layout class="QGridLayout" name="gvNreLayout" columnstretch="1,1">
-     <item row="0" column="0">
-      <widget class="QGroupBox" name="gvGB"/>
-     </item>
-     <item row="0" column="1">
-      <widget class="QGroupBox" name="reGB"/>
-     </item>
-    </layout>
+    <widget class="QLabel" name="reLabel">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Rotary Encoders</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="reLayout"/>
+   </item>
+   <item>
+    <widget class="Line" name="gvSeparator">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="gvLabel">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Global Vars</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gvLayout" columnstretch="1"/>
    </item>
   </layout>
  </widget>

@@ -207,7 +207,7 @@ bool isSwitchAvailableInTimers(int swtch)
 
 bool isLogicalSwitchFunctionAvailable(int function)
 {
-  return function != LS_FUNC_RANGE;
+  return true;
 }
 
 bool isAssignableFunctionAvailable(int function)

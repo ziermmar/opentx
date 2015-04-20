@@ -1083,7 +1083,7 @@ enum LogicalSwitchesFunctions {
   LS_FUNC_VPOS,   // v>offset
   LS_FUNC_VNEG,   // v<offset
 #if defined(CPUARM)
-  LS_FUNC_RANGE,
+  LS_FUNC_MODULO,
 #endif
   LS_FUNC_APOS,   // |v|>offset
   LS_FUNC_ANEG,   // |v|<offset

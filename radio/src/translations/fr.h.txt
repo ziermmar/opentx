@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
  * Authors (alphabetical order)
  * - Andre Bernet <bernet.andre@gmail.com>
  * - Bertrand Songis <bsongis@gmail.com>
@@ -188,16 +188,16 @@
 #if LCD_W >= 212
   #define TR_CSWTIMER          "Tempo"
   #define TR_CSWSTICKY         "Bistb"
-  #define TR_CSWRANGE          "Plage"
+  #define TR_CSWMODULO         "Plage"
   #define TR_CSWSTAY           "Flanc"
 #else
   #define TR_CSWTIMER          "Temp\0"
   #define TR_CSWSTICKY         "Bist\0"
   #if defined(CPUARM)
-    #define TR_CSWRANGE        "Zone\0"
+    #define TR_CSWMODULO       "Zone\0"
     #define TR_CSWSTAY         "Flnc\0"
   #else
-    #define TR_CSWRANGE
+    #define TR_CSWMODULO
     #define TR_CSWSTAY
   #endif
 #endif
@@ -210,9 +210,9 @@
 
 #define LEN_VCSWFUNC           "\005"
 #if defined(CPUARM)
-#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a~x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""ET\0  ""OU\0  ""OUX\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""Δ}x\0 ""|Δ|}x" TR_CSWTIMER TR_CSWSTICKY
+#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a~x\0 ""a>x\0 ""a<x\0 " TR_CSWMODULO"|a|>x""|a|<x""ET\0  ""OU\0  ""OUX\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""Δ}x\0 ""|Δ|}x" TR_CSWTIMER TR_CSWSTICKY
 #else
-#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a~x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""ET\0  ""OU\0  ""OUX\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
+#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a~x\0 ""a>x\0 ""a<x\0 " TR_CSWMODULO"|a|>x""|a|<x""ET\0  ""OU\0  ""OUX\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
 #endif
 
 #define LEN_VFSWFUNC           "\015"

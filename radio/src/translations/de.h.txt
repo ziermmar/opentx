@@ -188,16 +188,16 @@
 #if LCD_W >= 212
   #define TR_CSWTIMER          "Takt\0" // TIM = Takt = Taktgenerator
   #define TR_CSWSTICKY         "SRFF\0" // Sticky = RS-Flip-Flop
-  #define TR_CSWRANGE          "Range"  // Range = Bereichsabfrage von bis 
+  #define TR_CSWMODULO         "Range"  // Range = Bereichsabfrage von bis 
   #define TR_CSWSTAY           "Puls\0" // Edge = einstellbarer Impuls
 #else
   #define TR_CSWTIMER          "Takt\0" // TIM = Takt = Taktgenerator
   #define TR_CSWSTICKY         "SRFF\0" // Sticky = RS-Flip-Flop
   #if defined(CPUARM)
-    #define TR_CSWRANGE        "Rnge\0" // Range= Bereichsabfrage von bis
+    #define TR_CSWMODULO       "Rnge\0" // Range= Bereichsabfrage von bis
     #define TR_CSWSTAY         "Puls\0" // Edge = einstellbarer Impuls
   #else
-    #define TR_CSWRANGE
+    #define TR_CSWMODULO
     #define TR_CSWSTAY
   #endif
 #endif
@@ -210,9 +210,9 @@
 
 #define LEN_VCSWFUNC           "\005"
 #if defined(CPUARM)
-#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a~x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""Δ}x\0 ""|Δ|}x" TR_CSWTIMER TR_CSWSTICKY
+#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a~x\0 ""a>x\0 ""a<x\0 " TR_CSWMODULO"|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""Δ}x\0 ""|Δ|}x" TR_CSWTIMER TR_CSWSTICKY
 #else
-#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a~x\0 ""a>x\0 ""a<x\0 " TR_CSWRANGE "|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
+#define TR_VCSWFUNC            "---\0 " TR_CSWEQUAL "a~x\0 ""a>x\0 ""a<x\0 " TR_CSWMODULO"|a|>x""|a|<x""AND\0 ""OR\0  ""XOR\0 " TR_CSWSTAY "a=b\0 ""a>b\0 ""a<b\0 ""^}x\0 ""|^|}x" TR_CSWTIMER TR_CSWSTICKY
 #endif
 
 #define LEN_VFSWFUNC           "\012"

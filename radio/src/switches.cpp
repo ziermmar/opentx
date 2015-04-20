@@ -262,7 +262,6 @@ bool getLogicalSwitch(uint8_t idx)
     getvalue_t y;
     if (s == LS_FAMILY_COMP) {
       y = getValueForLogicalSwitch(ls->v2);
-
       switch (ls->func) {
         case LS_FUNC_EQUAL:
           result = (x==y);
@@ -324,6 +323,9 @@ bool getLogicalSwitch(uint8_t idx)
 #if defined(CPUARM)
         case LS_FUNC_VEQUAL:
           result = (x==y);
+          break;
+        case LS_FUNC_MODULO:
+          result = (x % y == 0);
           break;
 #endif
         case LS_FUNC_VALMOSTEQUAL:

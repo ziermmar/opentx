@@ -116,7 +116,12 @@ const char * loadModel(const char * filename)
 {
   preModelLoad();
 
+#if 1
+  const char * loadJsonModel(const char * filename, ModelData & model);
+  const char * error = loadJsonModel("model.json", g_model);
+#else
   const char * error = readModel(filename, (uint8_t *)&g_model, sizeof(g_model));
+#endif
   if (error) {
     TRACE("loadModel error=%s", error);
   }

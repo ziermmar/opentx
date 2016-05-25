@@ -30,6 +30,7 @@ set(THIRDPARTY_DIR thirdparty)
 set(LUA_DIR ${THIRDPARTY_DIR}/Lua/src)
 set(COOS_DIR ${THIRDPARTY_DIR}/CoOS)
 set(FATFS_DIR ${THIRDPARTY_DIR}/FatFs)
+set(YAYL_DIR ${THIRDPARTY_DIR}/yajl/src)
 set(RADIO_BIN_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 set(GUI_LANGUAGES cz de en es fr it pt sk se pl hu)  # TODO add nl
@@ -745,7 +746,18 @@ endforeach()
 set(SRC ${SRC} debug.cpp)
 
 if(${EEPROM} STREQUAL SDCARD)
-  set(SRC ${SRC} storage/storage_common.cpp storage/sdcard_raw.cpp)
+  set(SRC
+    ${SRC}
+    storage/storage_common.cpp
+    storage/sdcard_raw.cpp
+    storage/sdcard_json.cpp
+    ${YAYL_DIR}/yajl_alloc.c
+    ${YAYL_DIR}/yajl_parser.c
+    ${YAYL_DIR}/yajl.c
+    ${YAYL_DIR}/yajl_buf.c
+    ${YAYL_DIR}/yajl_lex.c
+    ${YAYL_DIR}/yajl_encode.c
+    )
 elseif(${EEPROM} STREQUAL EEPROM_RLC)
   set(SRC ${SRC} storage/storage_common.cpp storage/eeprom_common.cpp storage/eeprom_rlc.cpp)
   add_definitions(-DEEPROM -DEEPROM_RLC)
@@ -1071,7 +1083,7 @@ endif()
 
 if(CPU_FAMILY STREQUAL STM32)
   add_custom_target(flash
-    COMMAND dfu-util --alt 0 --dfuse-address 0x08000000 -d 0483:df11 -D firmware.bin
+    COMMAND dfu-util --alt 0 --dfuse-address 0x08000000 -D firmware.bin
     DEPENDS firmware
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
   )

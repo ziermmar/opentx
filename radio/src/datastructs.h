@@ -433,9 +433,21 @@ PACK(struct GVarData {
  * Timer structure
  */
 
-#if defined(CPUARM)
+#if defined(PCBHORUS) && !defined(BACKUP)
 PACK(struct TimerData {
-  int32_t  mode:9;            // timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw
+  int16_t  mode;            // timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw
+  uint32_t start;
+  int32_t  value;
+  uint8_t  countdownBeep;
+  uint8_t  minuteBeep;
+  uint8_t  persistent;
+  int8_t   countdownStart;
+  uint8_t  direction;
+  NOBACKUP(char name[LEN_TIMER_NAME]);
+});
+#elif defined(CPUARM)
+PACK(struct TimerData {
+  int32_t  mode :9;            // timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw
   uint32_t start:23;
   int32_t  value:24;
   uint32_t countdownBeep:2;
@@ -1036,7 +1048,7 @@ PACK(struct RadioData {
 #undef NOBACKUP
 
 
-#if !defined(BACKUP)
+#if !defined(BACKUP) && !defined(PCBHORUS)
 /* Compile time check to test structure size has not changed *
    Changing the size of one of the eeprom structs may cause wrong data to
    be loaded. Error out if the struct size changes.

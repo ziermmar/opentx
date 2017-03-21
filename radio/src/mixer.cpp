@@ -262,9 +262,12 @@ getvalue_t getValue(mixsrc_t i)
   }
 #endif
 
-#if defined(PCBGRUVIN9X) || defined(PCBMEGA2560) || defined(ROTARY_ENCODERS)
+#if defined(CPUM2560) || defined(PCBSKY9X)
   else if (i <= MIXSRC_LAST_ROTARY_ENCODER) {
+#if defined(ROTARY_ENCODERS)
     return getRotaryEncoder(i-MIXSRC_REa);
+#else
+    return 0;
   }
 #endif
 

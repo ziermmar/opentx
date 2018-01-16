@@ -830,11 +830,9 @@ void drawTimer(coord_t x, coord_t y, putstime_t tme, LcdFlags att, LcdFlags att2
   lcdDrawNumber(lcdNextPos, y, qr.rem, (att2|LEADING0|LEFT) & (~RIGHT), 2);
 }
 
-// TODO to be optimized with drawValueWithUnit
 void putsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att)
 {
-  lcdDrawNumber(x, y, (int16_t)volts, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? 0 : PREC1)));
-  if (~att & NO_UNIT) lcdDrawChar(lcdLastRightPos, y, 'V', att);
+  drawValueWithUnit(x, y, volts, (att & NO_UNIT) ? UNIT_RAW : UNIT_VOLTS, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? 0 : PREC1)));
 }
 
 void putsVBat(coord_t x, coord_t y, LcdFlags att)
@@ -1176,7 +1174,7 @@ void drawGPSPosition(coord_t x, coord_t y, int32_t longitude, int32_t latitude, 
 {
   if (flags & DBLSIZE) {
     x -= (g_eeGeneral.gpsFormat == 0 ? 62 : 61);
-    flags &= ~0x0F00; // TODO constant
+    flags &= ~FONTSIZE_MASK;
     drawGPSCoord(x, y, latitude, "NS", flags);
     drawGPSCoord(x, y+FH, longitude, "EW", flags);
   }

@@ -832,7 +832,12 @@ void drawTimer(coord_t x, coord_t y, putstime_t tme, LcdFlags att, LcdFlags att2
 
 void putsVolts(coord_t x, coord_t y, uint16_t volts, LcdFlags att)
 {
-  drawValueWithUnit(x, y, volts, (att & NO_UNIT) ? UNIT_RAW : UNIT_VOLTS, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? 0 : PREC1)));
+#if defined(CPUARM)
+  drawValueWithUnit(x, y, volts, (att & NO_UNIT) ? UNIT_RAW : UNIT_VOLTS, att | ((att&PREC2)==PREC2 ? 0 : PREC1));
+#else
+  lcdDrawNumber(x, y, (int16_t)volts, (~NO_UNIT) & (att | ((att&PREC2)==PREC2 ? 0 : PREC1)));
+  if (~att & NO_UNIT) lcdDrawChar(lcdLastRightPos, y, 'V', att);
+#endif
 }
 
 void putsVBat(coord_t x, coord_t y, LcdFlags att)

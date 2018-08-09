@@ -2,10 +2,13 @@ option(DISK_CACHE "Enable SD card disk cache" YES)
 option(UNEXPECTED_SHUTDOWN "Enable the Unexpected Shutdown screen" YES)
 set(PWR_BUTTON "PRESS" CACHE STRING "Pwr button type (PRESS/SWITCH)")
 
+option(YAML_STORAGE "Enable YAML storage" NO)
+
 set(CPU_TYPE STM32F4)
 set(HSE_VALUE 12000000)
 set(SDCARD YES)
-set(EEPROM SDCARD)
+set(STORAGE SDCARD)
+set(STORAGE_FORMAT BIN)
 set(HAPTIC YES)
 set(GUI_DIR 480x272)
 set(NAVIGATION_TYPE horus)
@@ -15,6 +18,10 @@ set(RAMBACKUP YES)
 set(LUA YES)
 set(PPM_LIMITS_SYMETRICAL YES)
 SET(USB_SERIAL ON CACHE BOOL "Enable USB serial (CDC)")
+
+if(YAML_STORAGE)
+  set(STORAGE_FORMAT YAML)
+endif()
 
 # for size report script
 set(CPU_TYPE_FULL STM32F429xI)

@@ -1811,7 +1811,7 @@ void opentxInit(OPENTX_INIT_ARGS)
 #pragma clang diagnostic push
 #pragma clang diagnostic warning "-Waddress-of-packed-member"
 #endif
-    topbar = new Topbar(&g_model.topbarData);
+    topbar = new Topbar((Topbar::PersistentData*)(((uint8_t*)&g_model) + offsetof(ModelData,topbarData)));
 #if __clang__
 // Restore warnings
 #pragma clang diagnostic pop

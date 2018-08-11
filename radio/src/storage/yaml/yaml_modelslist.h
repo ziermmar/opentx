@@ -18,30 +18,12 @@
  * GNU General Public License for more details.
  */
 
-#ifndef _SDCARD_COMMON_H_
-#define _SDCARD_COMMON_H_
+#ifndef _YAML_MODELSLIST_H_
+#define _YAML_MODELSLIST_H_
 
-#include "ff.h"
+struct YamlParserCalls;
 
-#define DEFAULT_CATEGORY "Models"
-
-#if defined(SDCARD_RAW)
-#define DEFAULT_MODEL_FILENAME   "model1.bin"
-#define MODEL_FILENAME_PATTERN   "model.bin"
-#elif defined(SDCARD_YAML)
-#define DEFAULT_MODEL_FILENAME   "model1.yml"
-#define MODEL_FILENAME_PATTERN   "model.yml"
-#endif
-
-void getModelPath(char * path, const char * filename);
-
-const char * readModel(const char * filename, uint8_t * buffer, uint32_t size);
-const char * loadModel(const char * filename, bool alarms=true);
-const char * createModel();
-const char * writeModel();
-
-void storageFormat();
-const char * loadRadioSettingsSettings();
-const char * writeGeneralSettings();
+void* get_modelslist_iter();
+const YamlParserCalls* get_modelslist_parser_calls();
 
 #endif

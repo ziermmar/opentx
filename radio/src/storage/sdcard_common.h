@@ -40,7 +40,6 @@ const char * loadModel(const char * filename, bool alarms=true);
 const char * createModel();
 const char * writeModel();
 
-void storageFormat();
 const char * loadRadioSettingsSettings();
 const char * writeGeneralSettings();
 

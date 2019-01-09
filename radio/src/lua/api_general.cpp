@@ -1400,8 +1400,13 @@ const luaR_value_entry opentxConstants[] = {
   { "FIXEDWIDTH", FIXEDWIDTH },
 #endif
 #if defined(PCBHORUS)
+#if defined(PCBX10)
+  { "EVT_PAGEUP_FIRST",  EVT_KEY_LONG(KEY_PGDN) },
+  { "EVT_PAGEDN_FIRST",  EVT_KEY_BREAK(KEY_PGDN) },
+#else
   { "EVT_PAGEUP_FIRST",  EVT_KEY_FIRST(KEY_PGUP) },
   { "EVT_PAGEDN_FIRST",  EVT_KEY_FIRST(KEY_PGDN) },
+#endif
   { "EVT_TELEM_FIRST",  EVT_KEY_FIRST(KEY_TELEM) },
   { "EVT_MODEL_FIRST",  EVT_KEY_FIRST(KEY_MODEL) },
   { "EVT_SYS_FIRST",  EVT_KEY_FIRST(KEY_RADIO) },

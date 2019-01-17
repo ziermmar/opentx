@@ -498,7 +498,7 @@ bool isR9ModuleRunning(int module)
 bool isR9MModeAvailable(int mode)
 {
 #if defined(MODULE_R9M_FLEX_FW)
-  return mode >= MODULE_SUBTYPE_R9M_EUPLUS;
+  return mode <= MODULE_SUBTYPE_R9M_LAST;
 #else
   return mode <= MODULE_SUBTYPE_R9M_EU;
 #endif
@@ -541,7 +541,15 @@ bool isModuleAvailable(int module)
     return false;
   }
 #endif
-
+#if defined(PCBXLITE)
+  if (module == MODULE_TYPE_R9M) {
+    return false;
+  }
+#else
+  if (module == MODULE_TYPE_R9MLITE || module == MODULE_TYPE_R9MPRO) {
+    return false;
+  }
+#endif
   return true;
 
 }

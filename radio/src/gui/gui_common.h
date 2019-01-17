@@ -164,7 +164,7 @@ const mm_protocol_definition *getMultiProtocolDefinition (uint8_t protocol);
 #endif
 
 #if defined(PCBXLITE) && !defined(MODULE_R9M_FULLSIZE)
-#define EXTERNAL_MODULE_POWER_ROW      (isModuleMultimodule(EXTERNAL_MODULE) || isModuleR9M(EXTERNAL_MODULE)) ? (isModuleR9M_FCC_VARIANT(EXTERNAL_MODULE) ? TITLE_ROW : (uint8_t) 0) : HIDDEN_ROW
+#define EXTERNAL_MODULE_POWER_ROW      (isModuleMultimodule(EXTERNAL_MODULE) || isModuleR9M(EXTERNAL_MODULE)) ? (isModuleR9MLite_FCC_VARIANT(EXTERNAL_MODULE) ? TITLE_ROW : (uint8_t) 0) : HIDDEN_ROW
 #elif defined(PCBXLITE)
 #define EXTERNAL_MODULE_POWER_ROW      (isModuleMultimodule(EXTERNAL_MODULE) || isModuleR9M(EXTERNAL_MODULE)) ? (uint8_t) 0 : HIDDEN_ROW
 #else

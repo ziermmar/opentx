@@ -159,16 +159,16 @@ inline void SEND_FAILSAFE_1S()
 // for channels not set previously to HOLD or NOPULSE
 void setCustomFailsafe(uint8_t moduleIndex);
 
-#define LEN_R9M_REGION                 "\006"
-#define TR_R9M_REGION                  "FCC\0  ""EU\0   ""868MHz""915MHz"
-#define LEN_R9MLITE_FCC_POWER_VALUES       "\010"
-#define LEN_R9MLITE_LBT_POWER_VALUES       "\015"
+#define LEN_R9M_REGION                 "\004"
+#define TR_R9M_REGION                  "FCC\0""EU\0 ""F868""F915"
+#define LEN_R9MLITE_FCC_POWER_VALUES   "\010"
 #define TR_R9MLITE_FCC_POWER_VALUES    "(100 mW)"
+#define LEN_R9MLITE_LBT_POWER_VALUES   "\015"
 #define TR_R9MLITE_LBT_POWER_VALUES    "25 mW 8ch\0   ""25 mW 16ch\0  ""100mW no tele"
 
 #define LEN_R9M_FCC_POWER_VALUES       "\013"
-#define LEN_R9M_LBT_POWER_VALUES       "\013"
 #define TR_R9M_FCC_POWER_VALUES        "10 mW\0     " "100 mW\0    " "500 mW\0    " "Auto <= 1 W"
+#define LEN_R9M_LBT_POWER_VALUES       "\013"
 #define TR_R9M_LBT_POWER_VALUES        "25 mW 8ch\0 " "25 mW 16ch\0" "200 mW 16ch" "500 mW 16ch"
 #define LEN_R9MFLEX_FREQ               "\006"
 #define TR_R9MFLEX_FREQ                "868Mhz""915Mhz"

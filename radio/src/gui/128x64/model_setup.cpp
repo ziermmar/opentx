@@ -736,7 +736,7 @@ void menuModelSetup(event_t event)
           lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+5*FW, y, STR_DSM_PROTOCOLS, g_model.moduleData[EXTERNAL_MODULE].rfProtocol, menuHorizontalPosition==1 ? attr : 0);
 #if defined(PCBXLITE)
         else if (isModuleR9M(EXTERNAL_MODULE))
-          lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+6*FW, y, STR_R9M_REGION, g_model.moduleData[EXTERNAL_MODULE].subType, (menuHorizontalPosition==1 ? attr : 0));
+          lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+8*FW-4, y, STR_R9M_REGION, g_model.moduleData[EXTERNAL_MODULE].subType, (menuHorizontalPosition==1 ? attr : 0));
 #else
         else if (isR9ModuleRunning(EXTERNAL_MODULE))
           lcdDrawTextAtIndex(MODEL_SETUP_2ND_COLUMN+5*FW, y, STR_R9M_REGION, g_model.moduleData[EXTERNAL_MODULE].r9m.region, (menuHorizontalPosition==1 ? attr : 0));

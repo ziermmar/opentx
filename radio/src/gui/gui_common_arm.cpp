@@ -542,9 +542,11 @@ bool isModuleAvailable(int module)
   }
 #endif
 #if defined(PCBXLITE)
+#if !defined(MODULE_R9M_FULLSIZE)
   if (module == MODULE_TYPE_R9M) {
     return false;
   }
+#endif
 #else
   if (module == MODULE_TYPE_R9MLITE || module == MODULE_TYPE_R9MPRO) {
     return false;

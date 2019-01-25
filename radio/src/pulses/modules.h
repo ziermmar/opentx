@@ -163,7 +163,7 @@ inline bool isModuleR9M_FCC_VARIANT(uint8_t idx)
 inline bool isModuleR9M_EUPLUS(uint8_t idx)
 {
 #if defined(PCBXLITE)
-  return isModuleR9M(idx) && g_model.moduleData[idx].subType == MODULE_R9M_REGION_FLEX && g_model.moduleData[idx].r9m.freq == MODULE_R9M_FREQ_868MHZ;
+  return isModuleR9M(idx) && g_model.moduleData[idx].subType == MODULE_SUBTYPE_R9M_EUPLUS;
 #else
   return isModuleR9M(idx) && g_model.moduleData[idx].r9m.region == MODULE_R9M_REGION_FLEX && g_model.moduleData[idx].r9m.freq == MODULE_R9M_FREQ_868MHZ;
 #endif

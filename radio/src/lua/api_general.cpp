@@ -932,6 +932,28 @@ static int luaGetGeneralSettings(lua_State * L)
 }
 
 /*luadoc
+@function getSystemTimers()
+
+Returns radio timers
+
+@retval table with elements:
+* `gtimer` (number) radio global timer in seconds
+* `ttimer` (number) radio throttle timer in seconds
+* `tptimer` (number) radio throttle percent timer in seconds
+
+@status current Introduced added in 2.3.0.
+
+*/
+static int luaGetSystemTimers(lua_State * L)
+{
+  lua_newtable(L);
+  lua_pushtableinteger(L, "gtimer", g_eeGeneral.globalTimer + sessionTimer);
+  lua_pushtableinteger(L, "ttimer", s_timeCumThr);
+  lua_pushtableinteger(L, "tptimer", s_timeCum16ThrP/16);
+  return 1;
+}
+
+/*luadoc
 @function popupInput(title, event, input, min, max)
 
 Raises a pop-up on screen that allows uses input
@@ -1329,6 +1351,7 @@ const luaL_Reg opentxLib[] = {
 #endif
   { "getVersion", luaGetVersion },
   { "getGeneralSettings", luaGetGeneralSettings },
+  { "getSystemTimers", luaGetSystemTimers },
   { "getValue", luaGetValue },
   { "getRAS", luaGetRAS },
   { "getTxGPS", luaGetTxGPS },

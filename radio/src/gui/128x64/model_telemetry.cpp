@@ -60,7 +60,9 @@ enum MenuModelTelemetryFrskyItems {
 
 #define USRDATA_ROWS
 
-#define RSSI_ROWS                    LABEL(RSSI), 0, 0, 0, 1,
+#define RSSI_SOURCE                  (IS_TELEMETRY_INTERNAL_MODULE() && IS_TELEMETRY_EXTERNAL_MODULE()) ? 0 : HIDDEN_ROW
+
+#define RSSI_ROWS                    LABEL(RSSI), RSSI_SOURCE, 0, 0, 1,
 
 #define SCREEN_TYPE_ROWS             0
 
@@ -250,14 +252,9 @@ void menuModelTelemetryFrsky(event_t event)
 
       case ITEM_TELEMETRY_RSSI_SOURCE: {
         lcdDrawTextAlignedLeft(y, STR_SOURCE);
-        drawSource(TELEM_COL2, y, g_model.rssiSource ? MIXSRC_FIRST_TELEM + 3 * (g_model.rssiSource - 1) : 0, attr);
-        if (g_model.rssiSource) {
-          TelemetrySensor * sensor = &g_model.telemetrySensors[g_model.rssiSource];
-          lcdDrawText(lcdNextPos, y, " ", attr);
-          drawReceiverName(lcdNextPos, y, (sensor->instance >> 7) & 0x01, (sensor->instance >> 5) & 0x03, attr);
-        }
+        lcdDrawText(TELEM_COL3, y, (g_model.rssiSource == 0) ? "INT" : "EXT", attr);
         if (attr) {
-          g_model.rssiSource = checkIncDec(event, g_model.rssiSource, 0, MAX_TELEMETRY_SENSORS, EE_MODEL | NO_INCDEC_MARKS, isRssiSensorAvailable);
+          g_model.rssiSource = checkIncDec(event, g_model.rssiSource, 0, 1, EE_MODEL | NO_INCDEC_MARKS);
         }
         break;
       }

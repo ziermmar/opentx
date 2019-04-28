@@ -245,7 +245,8 @@ extern Fifo<uint8_t, LUA_TELEMETRY_INPUT_FIFO_SIZE> * luaInputTelemetryFifo;
 #endif
 
 #if defined(STM32)
-#define IS_TELEMETRY_INTERNAL_MODULE() (g_model.moduleData[INTERNAL_MODULE].type == MODULE_TYPE_XJT)
+#define IS_TELEMETRY_INTERNAL_MODULE() (isModuleXJTVariant(INTERNAL_MODULE))
+#define IS_TELEMETRY_EXTERNAL_MODULE() ((g_model.moduleData[EXTERNAL_MODULE].type != MODULE_TYPE_NONE) && (g_model.moduleData[EXTERNAL_MODULE].type == MODULE_TYPE_DSM2))
 #else
 #define IS_TELEMETRY_INTERNAL_MODULE() (false)
 #endif

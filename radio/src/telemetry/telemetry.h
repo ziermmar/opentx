@@ -249,6 +249,7 @@ extern Fifo<uint8_t, LUA_TELEMETRY_INPUT_FIFO_SIZE> * luaInputTelemetryFifo;
 #define IS_TELEMETRY_EXTERNAL_MODULE() ((g_model.moduleData[EXTERNAL_MODULE].type != MODULE_TYPE_NONE) && (g_model.moduleData[EXTERNAL_MODULE].type == MODULE_TYPE_DSM2))
 #else
 #define IS_TELEMETRY_INTERNAL_MODULE() (false)
+#define IS_TELEMETRY_EXTERNAL_MODULE() ((g_model.moduleData[EXTERNAL_MODULE].type != MODULE_TYPE_NONE) && (g_model.moduleData[EXTERNAL_MODULE].type == MODULE_TYPE_DSM2))
 #endif
 
 void processPXX2Frame(uint8_t module, uint8_t *frame);

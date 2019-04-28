@@ -60,7 +60,7 @@ enum MenuModelTelemetryFrskyItems {
 
 #define USRDATA_ROWS
 
-#define RSSI_SOURCE                  (IS_TELEMETRY_INTERNAL_MODULE() && IS_TELEMETRY_EXTERNAL_MODULE()) ? 0 : HIDDEN_ROW
+#define RSSI_SOURCE                  (IS_TELEMETRY_INTERNAL_MODULE() && IS_TELEMETRY_EXTERNAL_MODULE()) ? (uint8_t)0 : HIDDEN_ROW
 
 #define RSSI_ROWS                    LABEL(RSSI), RSSI_SOURCE, 0, 0, 1,
 
